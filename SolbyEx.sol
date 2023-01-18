@@ -21,7 +21,7 @@ pragma solidity ^0.8.7;
 //     uint public i;
 //     bool public b;
 //     address public myAddress;
-//     //while local vars only exist only when the fxn runs or is called 
+//     //while local vars only exist only when the fxn runs or is called
 //     function foo() external{
 //         uint x = 123;
 //         bool f = false;
@@ -42,7 +42,6 @@ pragma solidity ^0.8.7;
 //         return (sender, timestamp, blockNum);
 //     }
 // }
-
 
 //Errors
 // contract Error {
@@ -130,7 +129,7 @@ pragma solidity ^0.8.7;
 //     function onlyOwnerCanCallThisFunc() external onlyOwner{
 //         //code
 //     }
-    
+
 //     function anyOneCanCall() external {
 //         //code
 //     }
@@ -183,7 +182,7 @@ pragma solidity ^0.8.7;
 
 // }
 
-// This a gas efficient way 
+// This a gas efficient way
 // contract ArrayReplaceLast{
 //     uint[] public arr;
 //     //  [1,2,3,4]--remove(1)-->[1,4,3]
@@ -196,7 +195,7 @@ pragma solidity ^0.8.7;
 //     }
 //     function test() external{
 //         arr = [1,2,3,4];
-        
+
 //         remove(1);//  [1,4,3]
 //         assert(arr.length == 3);
 //         assert(arr[0]==1);
@@ -207,31 +206,36 @@ pragma solidity ^0.8.7;
 //         assert(arr.length == 2);
 //         assert(arr[0]==1);
 //         assert(arr[1]==4);
-           
+
 //     }
 
 // }
 contract IterableMapping {
-    mapping(address => uint) public balances;
+    mapping(address => uint256) public balances;
     mapping(address => bool) public inserted;
     address[] public keys;
 
-    function set(address _key, uint _val) external{
+    function set(address _key, uint256 _val) external {
         balances[_key] = _val;
-        if(!inserted[_key]){
+        if (!inserted[_key]) {
             inserted[_key] = true;
             keys.push(_key);
         }
     }
-    function getSize() external view returns (uint){
+
+    function getSize() external view returns (uint256) {
         return keys.length;
     }
-    function first() external view returns (uint){
+
+    function first() external view returns (uint256) {
         return balances[keys[0]];
     }
-    function last() external view returns (uint){
-        return balances[keys[keys.length  - 1]];
+
+    function last() external view returns (uint256) {
+        return balances[keys[keys.length - 1]];
     }
-    function get(uint _i) external view returns (uint){
+
+    function get(uint256 _i) external view returns (uint256) {
         return balances[keys[_i]];
- 
+    }
+}
