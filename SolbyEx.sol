@@ -184,30 +184,54 @@ pragma solidity ^0.8.7;
 // }
 
 // This a gas efficient way 
-contract ArrayReplaceLast{
-    uint[] public arr;
-    //  [1,2,3,4]--remove(1)-->[1,4,3]
-    // [1,4,3]--remove(2)-->(1,4)
-    // [1,2,3]--remove(1)-->[1,3]
+// contract ArrayReplaceLast{
+//     uint[] public arr;
+//     //  [1,2,3,4]--remove(1)-->[1,4,3]
+//     // [1,4,3]--remove(2)-->(1,4)
+//     // [1,2,3]--remove(1)-->[1,3]
 
-        function remove(uint _index) public {
-        arr[_index] = arr[arr.length - 1];
-        arr.pop();
-    }
-    function test() external{
-        arr = [1,2,3,4];
+//         function remove(uint _index) public {
+//         arr[_index] = arr[arr.length - 1];
+//         arr.pop();
+//     }
+//     function test() external{
+//         arr = [1,2,3,4];
         
-        remove(1);//  [1,4,3]
-        assert(arr.length == 3);
-        assert(arr[0]==1);
-        assert(arr[1]==4);
-        assert(arr[2]==3);
+//         remove(1);//  [1,4,3]
+//         assert(arr.length == 3);
+//         assert(arr[0]==1);
+//         assert(arr[1]==4);
+//         assert(arr[2]==3);
 
-        remove(2); // [1, 4]
-        assert(arr.length == 2);
-        assert(arr[0]==1);
-        assert(arr[1]==4);
+//         remove(2); // [1, 4]
+//         assert(arr.length == 2);
+//         assert(arr[0]==1);
+//         assert(arr[1]==4);
            
-    }
+//     }
 
-}
+// }
+contract IterableMapping {
+    mapping(address => uint) public balances;
+    mapping(address => bool) public inserted;
+    address[] public keys;
+
+    function set(address _key, uint _val) external{
+        balances[_key] = _val;
+        if(!inserted[_key]){
+            inserted[_key] = true;
+            keys.push(_key);
+        }
+    }
+    function getSize() external view returns (uint){
+        return keys.length;
+    }
+    function first() external view returns (uint){
+        return balances[keys[0]];
+    }
+    function last() external view returns (uint){
+        return balances[keys[keys.length  - 1]];
+    }
+    function get(uint _i) external view returns (uint){
+        return balances[keys[_i]];
+ 
