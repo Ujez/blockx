@@ -136,17 +136,78 @@ pragma solidity ^0.8.7;
 //     }
 // }
 
-contract FunctionOutputs{
-    function returnMany() public pure returns (uint, bool){
-        return (1, true);
+// contract FunctionOutputs{
+//     function returnMany() public pure returns (uint, bool){
+//         return (1, true);
+//     }
+//      function named() public pure returns (uint x, bool b){
+//         return (1, true);
+//     }
+//      function assigned() public pure returns (uint x, bool b){
+//         x = 1;
+//         b = true;
+//     }
+// }
+// ARRAYS 285955 183297
+// contract ArrayShift{
+//     uint[] public arr;
+//     function example() public {
+//         arr = [1,2,3];
+//         delete arr[1];
+//     }
+
+//     // [1,2,3]--remove(1)-->[1,3,3]--->[1,3]
+//     // [1,2,3,4,5,6]--remove(2)-->[1,2,4,5,6,6]---->[1,2,4,5,6]
+//     // [1]--remove(0)-->[1]--->[]
+//     function remove(uint _index) public {
+//         require(_index < arr.length, "index out of bound");
+//         for(uint i = _index; i < arr.length - 1; i++){
+//             arr[i] = arr[i + 1];
+//         }
+//         arr.pop();
+//     }
+//     function test() external {
+//         arr = [1,2,3,4,5];
+//         remove(2);
+//         assert(arr[0]==1);
+//         assert(arr[1]==2);
+//         assert(arr[2]==4);
+//         assert(arr[3]==5);
+//         assert(arr.length == 4);
+
+//         // arr = [1];
+//         // remove(0);
+//         // // []
+//         // assert(arr.length == 0);
+//     }
+
+// }
+
+// This a gas efficient way 
+contract ArrayReplaceLast{
+    uint[] public arr;
+    //  [1,2,3,4]--remove(1)-->[1,4,3]
+    // [1,4,3]--remove(2)-->(1,4)
+    // [1,2,3]--remove(1)-->[1,3]
+
+        function remove(uint _index) public {
+        arr[_index] = arr[arr.length - 1];
+        arr.pop();
+    }
+    function test() external{
+        arr = [1,2,3,4];
+        
+        remove(1);//  [1,4,3]
+        assert(arr.length == 3);
+        assert(arr[0]==1);
+        assert(arr[1]==4);
+        assert(arr[2]==3);
+
+        remove(2); // [1, 4]
+        assert(arr.length == 2);
+        assert(arr[0]==1);
+        assert(arr[1]==4);
+           
     }
 
-     function named() public pure returns (uint x, bool b){
-        return (1, true);
-    }
-
-     function assigned() public pure returns (uint x, bool b){
-        x = 1;
-        b = true;
-    }
 }
