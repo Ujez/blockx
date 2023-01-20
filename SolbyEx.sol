@@ -305,38 +305,53 @@ pragma solidity ^0.8.7;
 //     }
 // }
 
-contract TodoList{
-    struct Todo{
-        string text;
-        bool completed;
+// contract TodoList{
+//     struct Todo{
+//         string text;
+//         bool completed;
+//     }
+//     Todo[] public todos;
+//     function create(string calldata _text) external {
+//         todos.push(Todo({
+//             text: _text,
+//             completed: false
+//         }));
+//     }
+//     function updateText(uint _index, string calldata _text) external {
+//         // METHOD 1
+//         // costlier if updating mmany fields opt for method 2, only use this when updating one field
+//         todos[_index].text = _text;
+//         // todos[_index].text = _text;
+//         // todos[_index].text = _text;
+//         // todos[_index].text = _text;
+//         //METHOD 2
+//         //much cheaper if you are updating more fields, opt for method 1 if updating just on field
+//         // Todo storage todo = todos[_index];
+//         // todo.text = _text;
+//         // todo.text = _text;
+//         // todo.text = _text;
+//         // todo.text = _text;
+//     }
+//     function get(uint _index) view external  returns (string memory, bool){
+//         Todo memory todo = todos[_index];
+//         return (todo.text, todo.completed);
+//     }
+//     function toggleCompleted(uint _index) external {
+//         todos[_index].completed = !todos[_index].completed;
+//     }
+// }
+contract Event {
+    event Log(string message, uint256 val);
+    event IndexedLog(address indexed sender, uint val);
+
+    function example() external {
+        emit Log("foo", 1234);
+        emit IndexedLog(msg.sender, 789);
     }
-    Todo[] public todos;
-    function create(string calldata _text) external {
-        todos.push(Todo({
-            text: _text,
-            completed: false
-        }));
-    }
-    function updateText(uint _index, string calldata _text) external {
-        // METHOD 1
-        // costlier if updating mmany fields opt for method 2, only use this when updating one field
-        todos[_index].text = _text;
-        // todos[_index].text = _text;
-        // todos[_index].text = _text;
-        // todos[_index].text = _text;
-        //METHOD 2
-        //much cheaper if you are updating more fields, opt for method 1 if updating just on field
-        // Todo storage todo = todos[_index];
-        // todo.text = _text;
-        // todo.text = _text;
-        // todo.text = _text;
-        // todo.text = _text;
-    }
-    function get(uint _index) view external  returns (string memory, bool){
-        Todo memory todo = todos[_index];
-        return (todo.text, todo.completed);
-    }
-    function toggleCompleted(uint _index) external {
-        todos[_index].completed = !todos[_index].completed;
+
+    event Message(address indexed _from, address indexed _to, string message);
+
+    function sendMessage(address _to, string calldata message) external {
+        emit Message(msg.sender, _to, message);
     }
 }
