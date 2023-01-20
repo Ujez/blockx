@@ -276,31 +276,67 @@ pragma solidity ^0.8.7;
 // }
 
 //USING ENUMS
-contract Enum{
-    enum Status{
-        None,
-        Pending,
-        Shipped,
-        Completed,
-        Rejected,
-        Canceled
+// contract Enum{
+//     enum Status{
+//         None,
+//         Pending,
+//         Shipped,
+//         Completed,
+//         Rejected,
+//         Canceled
+//     }
+//     Status public status;
+//     struct Order{
+//         address buyer;
+//         Status status;
+//     }
+//     Order[] public orders;
+//     function get() view external returns (Status) {
+//         return status;
+//     }
+//     function set(Status _status) external {
+//         status = _status;
+//     }
+//     function ship() external {
+//         status = Status.Shipped;
+//     }
+//     function reset() external {
+//         delete status;
+//     }
+// }
+
+contract TodoList{
+    struct Todo{
+        string text;
+        bool completed;
     }
-    Status public status;
-    struct Order{
-        address buyer;
-        Status status;
+    Todo[] public todos;
+    function create(string calldata _text) external {
+        todos.push(Todo({
+            text: _text,
+            completed: false
+        }));
     }
-    Order[] public orders;
-    function get() view external returns (Status) {
-        return status;
+    function updateText(uint _index, string calldata _text) external {
+        // METHOD 1
+        // costlier if updating mmany fields opt for method 2, only use this when updating one field
+        todos[_index].text = _text;
+        // todos[_index].text = _text;
+        // todos[_index].text = _text;
+        // todos[_index].text = _text;
+        //METHOD 2
+        //much cheaper if you are updating more fields, opt for method 1 if updating just on field
+        // Todo storage todo = todos[_index];
+        // todo.text = _text;
+        // todo.text = _text;
+        // todo.text = _text;
+        // todo.text = _text;
     }
-    function set(Status _status) external {
-        status = _status;
+    function get(uint _index) view external  returns (string memory, bool){
+        Todo memory todo = todos[_index];
+        return (todo.text, todo.completed);
     }
-    function ship() external {
-        status = Status.Shipped;
-    }
-    function reset() external {
-        delete status;
+    function toggleCompleted(uint _index) external {
+        todos[_index].completed = !todos[_index].completed;
     }
 }
