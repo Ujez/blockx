@@ -358,49 +358,76 @@ pragma solidity ^0.8.7;
 
 // INHERITANCE
 
-contract S {
-    string public name;
-    constructor(string memory _name){
-        name = _name;
-    }
-}
-contract T {
-    string public text;
-    constructor(string memory _text){
-        text = _text;
-    }
-}
-contract U is S("s"), T("t"){
+// contract S {
+//     string public name;
+//     constructor(string memory _name){
+//         name = _name;
+//     }
+// }
+// contract T {
+//     string public text;
+//     constructor(string memory _text){
+//         text = _text;
+//     }
+// }
+// contract U is S("s"), T("t"){
 
+// }
+// contract V is S, T{
+//     constructor(string memory _name, string memory _text) S(_name) T(_text){
+
+//     }
+// }
+// contract VV is S("s"), T{
+//     constructor(string memory _text) T(_text){
+
+//     }
+// }
+
+// //Order of execution
+// //1. S
+// //2. T
+// //3. V1
+// contract V0 is S, T{
+//     constructor(string memory _name, string memory _text) S(_name) T(_text){
+
+//     }
+// }
+// //Order of execution
+// //1. T
+// //2. S
+// //3. V1
+// contract V1 is T, S{
+//     constructor(string memory _name, string memory _text) S(_name) T(_text){
+
+//     }
+// }
+
+// VISIBILITY
+contract VisibilityBase {
+    uint private x = 0;
+    uint internal y = 1;
+    uint public z =2;
+    function privateFunc() private pure returns (uint256) {}
+
+    function internalFunc() private pure returns (uint256) {}
+
+    function publicFunc() private pure returns (uint256) {}
+
+    function externalFunc() private pure returns (uint256) {}
+
+    function examples() external view {
+        x + y + z;
+        privateFunc();
+        internalFunc();
+        publicFunc();
+
+        // this.externalFunc(); //this is a hacky trick so don't do it
+    }
 }
-contract V is S, T{
-    constructor(string memory _name, string memory _text) S(_name) T(_text){
+
+contract VisibilityChild is VisibilityBase{
+    function examples2() external view {
         
     }
 }
-contract VV is S("s"), T{
-    constructor(string memory _text) T(_text){
-
-    }
-}
-
-//Order of execution
-//1. S
-//2. T
-//3. V1
-contract V0 is S, T{
-    constructor(string memory _name, string memory _text) S(_name) T(_text){
-        
-    }
-}
-//Order of execution
-//1. T
-//2. S
-//3. V1
-contract V1 is T, S{
-    constructor(string memory _name, string memory _text) S(_name) T(_text){
-        
-    }
-}
-
-
