@@ -404,30 +404,44 @@ pragma solidity ^0.8.7;
 // }
 
 // VISIBILITY
-contract VisibilityBase {
-    uint private x = 0;
-    uint internal y = 1;
-    uint public z =2;
-    function privateFunc() private pure returns (uint256) {}
+// contract VisibilityBase {
+//     uint private x = 0;
+//     uint internal y = 1;
+//     uint public z =2;
+//     function privateFunc() private pure returns (uint256) {}
 
-    function internalFunc() private pure returns (uint256) {}
+//     function internalFunc() private pure returns (uint256) {}
 
-    function publicFunc() private pure returns (uint256) {}
+//     function publicFunc() private pure returns (uint256) {}
 
-    function externalFunc() private pure returns (uint256) {}
+//     function externalFunc() private pure returns (uint256) {}
 
-    function examples() external view {
-        x + y + z;
-        privateFunc();
-        internalFunc();
-        publicFunc();
+//     function examples() external view {
+//         x + y + z;
+//         privateFunc();
+//         internalFunc();
+//         publicFunc();
 
-        // this.externalFunc(); //this is a hacky trick so don't do it
-    }
-}
+//         // this.externalFunc(); //this is a hacky trick so don't do it
+//     }
+// }
 
-contract VisibilityChild is VisibilityBase{
-    function examples2() external view {
+// contract VisibilityChild is VisibilityBase{
+//     function examples2() external view {
         
+//     }
+// }
+
+contract Immutable{
+    // gas 52576
+    address public immutable owner;
+    
+    constructor(){
+        owner=msg.sender;
+    }
+    uint public x;
+    function foo() external {
+        require(msg.sender == owner);
+        x +=1;
     }
 }
