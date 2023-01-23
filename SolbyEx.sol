@@ -432,16 +432,29 @@ pragma solidity ^0.8.7;
 //     }
 // }
 
-contract Immutable{
-    // gas 52576
-    address public immutable owner;
+//IMMMUTABLES
+// contract Immutable{
+//     // gas 52576
+//     address public immutable owner;
     
-    constructor(){
-        owner=msg.sender;
+//     constructor(){
+//         owner=msg.sender;
+//     }
+//     uint public x;
+//     function foo() external {
+//         require(msg.sender == owner);
+//         x +=1;
+//     }
+// }
+
+contract Payable{
+    address public payable owner;
+    constructor ()  {
+        owner = payable(msg.sender);
     }
-    uint public x;
-    function foo() external {
-        require(msg.sender == owner);
-        x +=1;
+    function deposite() external payable {
+    }
+    function getbalance() external view returns {
+        return address(this).balances;
     }
 }
