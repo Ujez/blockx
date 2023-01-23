@@ -340,18 +340,67 @@ pragma solidity ^0.8.7;
 //         todos[_index].completed = !todos[_index].completed;
 //     }
 // }
-contract Event {
-    event Log(string message, uint256 val);
-    event IndexedLog(address indexed sender, uint val);
+// contract Event {
+//     event Log(string message, uint256 val);
+//     event IndexedLog(address indexed sender, uint val);
 
-    function example() external {
-        emit Log("foo", 1234);
-        emit IndexedLog(msg.sender, 789);
-    }
+//     function example() external {
+//         emit Log("foo", 1234);
+//         emit IndexedLog(msg.sender, 789);
+//     }
 
-    event Message(address indexed _from, address indexed _to, string message);
+//     event Message(address indexed _from, address indexed _to, string message);
 
-    function sendMessage(address _to, string calldata message) external {
-        emit Message(msg.sender, _to, message);
+//     function sendMessage(address _to, string calldata message) external {
+//         emit Message(msg.sender, _to, message);
+//     }
+// }
+
+// INHERITANCE
+
+contract S {
+    string public name;
+    constructor(string memory _name){
+        name = _name;
     }
 }
+contract T {
+    string public text;
+    constructor(string memory _text){
+        text = _text;
+    }
+}
+contract U is S("s"), T("t"){
+
+}
+contract V is S, T{
+    constructor(string memory _name, string memory _text) S(_name) T(_text){
+        
+    }
+}
+contract VV is S("s"), T{
+    constructor(string memory _text) T(_text){
+
+    }
+}
+
+//Order of execution
+//1. S
+//2. T
+//3. V1
+contract V0 is S, T{
+    constructor(string memory _name, string memory _text) S(_name) T(_text){
+        
+    }
+}
+//Order of execution
+//1. T
+//2. S
+//3. V1
+contract V1 is T, S{
+    constructor(string memory _name, string memory _text) S(_name) T(_text){
+        
+    }
+}
+
+
