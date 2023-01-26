@@ -428,7 +428,7 @@ pragma solidity ^0.8.7;
 
 // contract VisibilityChild is VisibilityBase{
 //     function examples2() external view {
-        
+
 //     }
 // }
 
@@ -436,7 +436,7 @@ pragma solidity ^0.8.7;
 // contract Immutable{
 //     // gas 52576
 //     address public immutable owner;
-    
+
 //     constructor(){
 //         owner=msg.sender;
 //     }
@@ -447,14 +447,35 @@ pragma solidity ^0.8.7;
 //     }
 // }
 
-contract Payable{
-    address public payable owner;
-    constructor ()  {
-        owner = payable(msg.sender);
+//contract Payable{
+//    address payable public owner;
+//    constructor ()  {
+//        owner = payable(msg.sender);
+//    }
+//    function deposite() external payable {
+//    }
+//    function getbalance() external view returns(uint) {
+//        return address(this).balance;
+//    }
+//}
+//
+
+// FALLBACK
+// - Used when a fxn doesn't exist
+// - Directly send ETH
+
+contract Fallback{
+    event Log(string func, address sender, uint value, bytes data);
+    fallback() external payable{
+        emit Log("fallback", msg.sender, msg.value, msg.data);
+
     }
-    function deposite() external payable {
-    }
-    function getbalance() external view returns {
-        return address(this).balances;
+    receive() external payable{
+        emit Log("recieve", msg.sender, msg.value, "");
     }
 }
+
+
+
+
+
