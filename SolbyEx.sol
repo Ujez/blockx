@@ -464,18 +464,43 @@ pragma solidity ^0.8.7;
 // - Used when a fxn doesn't exist
 // - Directly send ETH
 
-contract Fallback{
-    event Log(string func, address sender, uint value, bytes data);
-    fallback() external payable{
-        emit Log("fallback", msg.sender, msg.value, msg.data);
+//contract Fallback{
+//    event Log(string func, address sender, uint value, bytes data);
+//    fallback() external payable{
+//        emit Log("fallback", msg.sender, msg.value, msg.data);
+//    }
+//    receive() external payable{
+//        emit Log("recieve", msg.sender, msg.value, "");
+//    }
+//}
 
+contract SendEther{
+    constructor() payable {}
+    receive() external  payable {}
+
+    function sendViaTransfer(address payable _to) external payable{
+        _to.transfer(123);
     }
-    receive() external payable{
-        emit Log("recieve", msg.sender, msg.value, "");
+
+    function sendViaSend(address payable _to) external payable{
+        bool sent = _to.send(123);
+        require(sent, "send failed");
     }
+
+    function sendViaCall(address payable _to) external payable{
+        (bool success, )=_to.call{value: 123}("");
+        require(success, "call failed");
+    }
+
 }
 
+contract EthReceiver{
+    event Log(uint amount, uint gas);
 
+    receive() external payable{
+        emit Log(msg.value, gasleft());
+    }
+}
 
 
 
