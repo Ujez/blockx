@@ -1,0 +1,20 @@
+{
+    "description": "This NFT proves that I have deployed an NFT on Ethereum Goerli",
+    "external_url": "https://alchemy.com",
+    "image": "https://ipfs.io/ipfs/QmQQqYfJZzsq8iEcnrZoHzstuiBLHAMNh9HBzDEiYsC96R?filename=ujezwlpprBLUE.png",
+    "name": "NAIRA",
+    "attributes": [
+      {
+        "trait_type": "Colour",
+        "value": "Mixed"
+      },
+      {
+        "trait_type": "Coolness",
+        "value": "A lot!"
+      },
+      {
+        "trait_type": "Token Standard",
+        "value": "ERC721"
+      }
+    ]
+  }

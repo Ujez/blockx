@@ -473,34 +473,160 @@ pragma solidity ^0.8.7;
 //        emit Log("recieve", msg.sender, msg.value, "");
 //    }
 //}
+//
+//contract SendEther{
+//    constructor() payable {}
+//    receive() external  payable {}
+//
+//    function sendViaTransfer(address payable _to) external payable{
+//        _to.transfer(123);
+//    }
+//
+//    function sendViaSend(address payable _to) external payable{
+//        bool sent = _to.send(123);
+//        require(sent, "send failed");
+//    }
+//
+//    function sendViaCall(address payable _to) external payable{
+//        (bool success, )=_to.call{value: 123}("");
+//        require(success, "call failed");
+//    }
+//
+//}
+//
+//contract EthReceiver{
+//    event Log(uint amount, uint gas);
+//
+//    receive() external payable{
+//        emit Log(msg.value, gasleft());
+//    }
+//}
+//
+//
 
-contract SendEther{
-    constructor() payable {}
-    receive() external  payable {}
+//contract EtherWallet{
+//    address payable public owner;
+//    constructor(){
+//        owner = payable(msg.sender);
+//    }
+//    receive() external payable{}
+//
+//    function withdraw(uint _amount) external {
+//        require(msg.sender == owner, "caller is not owner");
+//        payable(msg.sender).transfer(_amount);
+//    }
+//    function getBalance() external view returns (uint){
+//        return address (this).balance;
+//    }
+//}
+//
 
-    function sendViaTransfer(address payable _to) external payable{
-        _to.transfer(123);
-    }
+//contract Base { //    // Private function can only be called
+//    // - inside this contract
+//    // Contracts that inherit this contract cannot call this function.
+//    function privateFunc() private pure returns (string memory) {
+//        return "private function called";
+//    }
+//
+//    function testPrivateFunc() public pure returns (string memory) {
+//        return privateFunc();
+//    }
+//
+//    // Internal function can be called
+//    // - inside this contract
+//    // - inside contracts that inherit this contract
+//    function internalFunc() internal pure returns (string memory) {
+//        return "internal function called";
+//    }
+//
+//    function testInternalFunc() public pure virtual returns (string memory) {
+//        return internalFunc();
+//    }
+//
+//    // Public functions can be called
+//    // - inside this contract
+//    // - inside contracts that inherit this contract
+//    // - by other contracts and accounts
+//    function publicFunc() public pure returns (string memory) {
+//        return "public function called";
+//    }
+//
+//    // External functions can only be called
+//    // - by other contracts and accounts
+//    function externalFunc() external pure returns (string memory) {
+//        return "external function called";
+//    }
+//
+//    // This function will not compile since we're trying to call
+//    // an external function here.
+//    function testExternalFunc() public pure returns (string memory) {
+//        return externalFunc();
+//    }
+//
+//    // State variables
+//    string private privateVar = "my private variable";
+//    string internal internalVar = "my internal variable";
+//    string public publicVar = "my public variable";
+//    // State variables cannot be external so this code won't compile.
+//    // string external externalVar = "my external variable";
+//}
+//
+//contract Child is Base {
+//    // Inherited contracts do not have access to private functions
+//    // and state variables.
+//function testPrivateFunc() public pure returns (string memory) {
+//    return privateFunc();
+//}
+//
+//    // Internal function call be called inside child contracts.
+//    function testInternalFunc() public pure override returns (string memory) {
+//        return internalFunc();
+//    }
+//}
+//
+//contract HelloWorld{
+//    string public greet = "hello world";
+//}
+//contract Counter {
+//     uint public counter; //
+//     function get() public view returns(uint) {
+//         return counter;
+//     }
+//     function inc() public {
+//         counter += 1;
+//     }
+//     function dec() public {
+//         counter -= 1;
+//     }
+//}
 
-    function sendViaSend(address payable _to) external payable{
-        bool sent = _to.send(123);
-        require(sent, "send failed");
-    }
+//contract Immutable {
+//    address public immutable MY_ADDRESS;
+//    uint public immutable MY_UINT;
+//
+//    constructor(uint _myUint){
+//        MY_ADDRESS = msg.sender;
+//        MY_UINT = _myUint;
+//    }
+//}
+////contract SimpleStorage{
+//    uint public  number;
+//
+//    function set(uint _number) public {
+//       number = _number;
+//    }
+//    function get() public view returns(uint){
+//        return number;
+//
+//}
+//
+contract Gas{
+    uint public i = 0;
 
-    function sendViaCall(address payable _to) external payable{
-        (bool success, )=_to.call{value: 123}("");
-        require(success, "call failed");
+    function forever() public {
+        while (true){
+            i +=1;
+        }
     }
 
 }
-
-contract EthReceiver{
-    event Log(uint amount, uint gas);
-
-    receive() external payable{
-        emit Log(msg.value, gasleft());
-    }
-}
-
-
-
